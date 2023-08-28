@@ -5,10 +5,17 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import br.com.devxlabs.ravin.daos.ProductDAO;
 import br.com.devxlabs.ravin.models.dtos.ProductDTO;
 
 @Service
 public class ProductService {
+
+	private ProductDAO productDAO;
+
+	public ProductService(ProductDAO productDAO) {
+		this.productDAO = productDAO;
+	}
 
 	public List<ProductDTO> getAllProducts() {
 		// TODO Auto-generated method stub
