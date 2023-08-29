@@ -21,6 +21,6 @@ public class ProductDTO implements Serializable {
 	private String preparationTime;
 	private String comments;
 	private ProductType productType;
-	private boolean hasActive;
+	private boolean active;
 
 }

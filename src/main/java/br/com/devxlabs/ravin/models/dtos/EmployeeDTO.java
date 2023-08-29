@@ -1,6 +1,5 @@
 package br.com.devxlabs.ravin.models.dtos;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import br.com.devxlabs.ravin.models.enums.EmployeeAviability;
@@ -13,7 +12,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Getter @Setter @NoArgsConstructor @ToString
-public class EmployeeDTO extends PersonDTO implements Serializable {
+public class EmployeeDTO extends PersonDTO {
 	
 	private static final long serialVersionUID = 1L;
 

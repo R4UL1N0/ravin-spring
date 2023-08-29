@@ -1,12 +1,12 @@
 package br.com.devxlabs.ravin.services;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import br.com.devxlabs.ravin.daos.ProductDAO;
 import br.com.devxlabs.ravin.models.dtos.ProductDTO;
+import br.com.devxlabs.ravin.models.entities.Product;
 
 @Service
 public class ProductService {
@@ -17,29 +17,24 @@ public class ProductService {
 		this.productDAO = productDAO;
 	}
 
-	public List<ProductDTO> getAllProducts() {
-		// TODO Auto-generated method stub
-		return List.of(new ProductDTO());
+	public List<Product> getAllProducts() {
+		return productDAO.findAll();
 	}
 
-	public ProductDTO getProduct(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public void saveProduct(Product product) {
+		productDAO.save(product);
 	}
 
-	public ProductDTO createProduct(ProductDTO product) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public Product createProduct(ProductDTO productDTO) throws Exception{
+		if (productDAO.findProductByCode(productDTO.getCode()).isPresent()) {
+			throw new Exception("Product Code already exists.");
+		}
+		Product newProduct = new Product(productDTO);
+		saveProduct(newProduct);
 
-	public ProductDTO updateProduct(Long id, ProductDTO product) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void deleteProduct(Long id) {
-		// TODO Auto-generated method stub
+		return newProduct;
 
 	}
+
 
 }

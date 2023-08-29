@@ -5,6 +5,7 @@ import java.util.Date;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 
+import br.com.devxlabs.ravin.models.dtos.ProductDTO;
 import br.com.devxlabs.ravin.models.enums.ProductType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -59,5 +60,17 @@ public class Product {
 	
 	private String updatedBy;
 	private Date updatedDate;
+
+	public Product(ProductDTO data) {
+		this.name = data.getName();
+		this.description = data.getDescription();
+		this.code = data.getCode();
+		this.costPrice = data.getCostPrice();
+		this.salePrice = data.getSalePrice();
+		this.preparationTime = data.getPreparationTime();
+		this.comments = data.getComments();
+		this.productType = data.getProductType();
+		this.hasActive = data.isActive();
+	}
 	
 }
