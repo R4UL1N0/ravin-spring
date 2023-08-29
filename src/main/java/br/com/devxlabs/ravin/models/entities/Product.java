@@ -1,5 +1,6 @@
 package br.com.devxlabs.ravin.models.entities;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import org.springframework.data.annotation.CreatedBy;
@@ -56,10 +57,10 @@ public class Product {
 	private String createdBy;
 	
 	@CreatedDate
-	private Date createdDate;
+	private LocalDateTime createdDate;
 	
 	private String updatedBy;
-	private Date updatedDate;
+	private LocalDateTime updatedDate;
 
 	public Product(ProductDTO data) {
 		this.name = data.getName();
@@ -71,6 +72,10 @@ public class Product {
 		this.comments = data.getComments();
 		this.productType = data.getProductType();
 		this.hasActive = data.isActive();
+		this.createdBy = "Lucas";
+		this.updatedBy = "Lucas";
+		this.createdDate = LocalDateTime.now();
+		this.updatedDate = LocalDateTime.now();
 	}
 	
 }
