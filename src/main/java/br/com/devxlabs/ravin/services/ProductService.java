@@ -21,6 +21,13 @@ public class ProductService {
 		return productDAO.findAll();
 	}
 
+	public Product getProductById(Long id) throws Exception{
+		if (!(productDAO.findById(id).isPresent())) {
+			throw new Exception("Product doesn't exist.");
+		}
+		return productDAO.findById(id).get();
+	}
+
 	public void saveProduct(Product product) {
 		productDAO.save(product);
 	}

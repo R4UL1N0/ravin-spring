@@ -1,4 +1,4 @@
-package br.com.devxlabs.ravin.controllers;
+package br.com.devxlabs.ravin.controllers.templates;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

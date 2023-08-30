@@ -1,7 +1,6 @@
 package br.com.devxlabs.ravin.models.entities;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
