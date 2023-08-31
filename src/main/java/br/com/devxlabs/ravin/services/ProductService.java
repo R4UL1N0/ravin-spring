@@ -2,6 +2,8 @@ package br.com.devxlabs.ravin.services;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import br.com.devxlabs.ravin.daos.ProductDAO;
@@ -41,6 +43,24 @@ public class ProductService {
 
 		return newProduct;
 
+	}
+
+	public Page<Product> search(Integer page, Integer size) {
+		PageRequest pageable = PageRequest.of(page, size);
+		return productDAO.findAll(pageable);
+	}
+
+	public Product updateProduct(ProductDTO productDTO) {
+		Product p = new Product(productDTO);
+		return productDAO.save(p);
+	}
+
+	
+	public Product deleteProduct(Long id) throws Exception {
+		Product p = this.getProductById(id);
+		productDAO.deleteById(id);
+
+		return p;
 	}
 
 

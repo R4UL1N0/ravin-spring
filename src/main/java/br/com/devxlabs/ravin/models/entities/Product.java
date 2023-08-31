@@ -37,10 +37,10 @@ public class Product {
 	private String code;
 	
 	@Column(nullable = false)
-	private double costPrice;
+	private Double costPrice;
 	
 	@Column(nullable = false)
-	private double salePrice;
+	private Double salePrice;
 	
 	private String preparationTime;
 	private String comments;
