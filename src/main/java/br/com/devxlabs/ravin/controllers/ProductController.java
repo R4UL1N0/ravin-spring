@@ -30,7 +30,7 @@ public class ProductController {
 
 
 	@GetMapping
-	public ResponseEntity<List<Product>> getAllProducts() {
+	public ResponseEntity<List<ProductDTO>> getAllProducts() {
 		return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
 	}
 
@@ -57,7 +57,7 @@ public class ProductController {
 	@PutMapping("/{id}")
 	public Product changeProduct(@PathVariable Long id, @Valid @RequestBody ProductDTO productDTO) {
 		productDTO.setId(id);
-		return productService.updateProduct(productDTO);
+		return productService.updateProduct(id, productDTO);
 	}
 
 	@DeleteMapping("/{id}")
