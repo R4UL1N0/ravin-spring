@@ -12,7 +12,7 @@ public class ControllerExceptionHandler {
     
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<?> treatDuplicateEntry(DataIntegrityViolationException e) {
-        ExceptionDTO exceptionDTO = new ExceptionDTO("User already exists", "400");
+        ExceptionDTO exceptionDTO = new ExceptionDTO("Product already exists", "400");
         return ResponseEntity.badRequest().body(exceptionDTO);
     }
 

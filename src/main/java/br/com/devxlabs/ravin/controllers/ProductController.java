@@ -35,15 +35,15 @@ public class ProductController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Product> getProductById(@PathVariable Long id) throws Exception{
+	public ResponseEntity<ProductDTO> getProductById(@PathVariable Long id) throws Exception{
 			return new ResponseEntity<>(productService.getProductById(id), HttpStatus.OK);
 	}
 
 	@PostMapping
-	public Product createProduct(@Valid @RequestBody ProductDTO productDTO) throws Exception{
-		Product newProduct = productService.createProduct(productDTO);
-
-		return newProduct;
+	public ResponseEntity<ProductDTO> createProduct(@Valid @RequestBody ProductDTO productDTO) throws Exception{
+		Product created = productService.createProduct(productDTO);
+		productDTO.setId(created.getId());
+		return new ResponseEntity<>(productDTO, HttpStatus.CREATED);
 	} 
 
 	@GetMapping("/search")
@@ -55,13 +55,14 @@ public class ProductController {
 	}
 
 	@PutMapping("/{id}")
-	public Product changeProduct(@PathVariable Long id, @Valid @RequestBody ProductDTO productDTO) {
+	public ProductDTO changeProduct(@PathVariable Long id, @Valid @RequestBody ProductDTO productDTO) throws Exception {
 		productDTO.setId(id);
-		return productService.updateProduct(id, productDTO);
+		productService.updateProduct(id, productDTO);
+		return productDTO;
 	}
 
 	@DeleteMapping("/{id}")
-	public Product deleteProduct(@PathVariable Long id) throws Exception {
+	public ProductDTO deleteProduct(@PathVariable Long id) throws Exception {
 		return productService.deleteProduct(id);
 	}
 }

@@ -25,7 +25,7 @@ public class Product {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 
 	@Column(nullable = false)
 	private String name;
@@ -75,6 +75,13 @@ public class Product {
 		this.updatedBy = "Lucas";
 		this.createdDate = LocalDateTime.now();
 		this.updatedDate = LocalDateTime.now();
+	}
+
+	public void setProductValues(ProductDTO data) {
+		setName(data.getName().isEmpty() ? this.name : data.getName());
+		setDescription(data.getDescription().isEmpty() ? this.description : data.getDescription());
+		setCode(data.getCode().isEmpty() ? this.code : data.getCode());
+
 	}
 	
 }

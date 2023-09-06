@@ -3,7 +3,9 @@ package br.com.devxlabs.ravin.models.dtos;
 import java.io.Serializable;
 
 import br.com.devxlabs.ravin.models.enums.ProductType;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,22 +18,24 @@ public class ProductDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	@NotNull @NotBlank
+	@NotEmpty @NotBlank
 	private String name;
-	@NotNull @NotBlank
+	@NotEmpty @NotBlank
 	private String description;
-	@NotNull @NotBlank
+	@NotEmpty @NotBlank
 	private String code;
-	@NotNull
+	@NotEmpty
+	@DecimalMin(value = "0", message = "O preço de venda não pode ser negativo.")
 	private Double costPrice;
-	@NotNull
+	@NotEmpty
+	@DecimalMin(value = "0", message = "O preço de venda não pode ser negativo.")
 	private Double salePrice;
-	@NotNull @NotBlank
+	@NotEmpty @NotBlank
 	private String preparationTime;
 	private String comments;
-	@NotNull
+	@NotEmpty
 	private ProductType productType;
-	@NotNull 
+	@NotEmpty 
 	private boolean active;
 
 }

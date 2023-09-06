@@ -6,7 +6,6 @@ import java.util.Optional;
 // import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -41,11 +40,12 @@ public class ProductService {
 		return productsDTO;
 	}
 
-	public Product getProductById(Long id) throws Exception{
+	public ProductDTO getProductById(Long id) throws Exception{
 		if (!(productRepository.findById(id).isPresent())) {
 			throw new Exception("Product doesn't exist.");
 		}
-		return productRepository.findById(id).get();
+		ProductDTO p = mapper.map(productRepository.findById(id).get(), ProductDTO.class);
+		return p;
 	}
 
 	public void saveProduct(Product product) {
@@ -69,17 +69,26 @@ public class ProductService {
 		return productRepository.findAll(pageable);
 	}
 
-	public Product updateProduct(Long productId, ProductDTO productDTO) {
+	public ProductDTO updateProduct(Long productId, ProductDTO productDTO) throws Exception{
+		Optional<Product> opProduct = productRepository.findById(productId);
+		if (!opProduct.isPresent()) {
+			throw new Exception("No product with id " + productId);
+		}
+		
 		Product p = new Product(productDTO);
-		return productRepository.save(p);
+		productRepository.save(p);
+		return productDTO;
 	}
 
 	
-	public Product deleteProduct(Long id) throws Exception {
-		Product p = this.getProductById(id);
-		productRepository.deleteById(id);
-
-		return p;
+	public ProductDTO deleteProduct(Long id) throws Exception {
+		Optional<Product> p = productRepository.findById(id);
+		if (p.isPresent()) {
+			productRepository.deleteById(id);
+		}
+		ProductDTO pDTO = mapper.map(p.get(), ProductDTO.class);
+		
+		return pDTO;
 	}
 
 
