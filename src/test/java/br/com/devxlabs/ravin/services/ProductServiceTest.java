@@ -1,10 +1,16 @@
 package br.com.devxlabs.ravin.services;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
 import java.util.List;
 
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,11 +25,15 @@ import jakarta.transaction.Transactional;
 @AutoConfigureMockMvc
 public class ProductServiceTest {
     
-    @Autowired
+    @InjectMocks
     private ProductService productService;
 
-    @Autowired
+    @Mock
     private ProductRepository productRepository;
+
+    @Mock
+    private ModelMapper mapper;
+
 
     @Test
     public void testGetAllProducts() {
@@ -35,7 +45,7 @@ public class ProductServiceTest {
 
     @Test
     @Transactional
-    public void testCreateProduct() throws Exception {
+    public void testCreateAndDeleteProduct() throws Exception {
 
         ProductDTO p = new ProductDTO();
         p.setCode("234324");
@@ -54,11 +64,23 @@ public class ProductServiceTest {
         Long pByCodeId = productRepository.findProductByCode("234324").get().getId();
 
         productService.deleteProduct(pByCodeId);
+        
+        
 
         Assert.assertFalse("Product should not be in the DB after removing", productRepository.findProductByCode("234324").isPresent());
 
         ProductDTO emptyP = new ProductDTO();
         Assert.assertThrows("Should not create empty Product", Exception.class, () -> {productService.createProduct(emptyP);});
 
+    }
+
+    @Test
+    public void testProductDTOToEntity() {
+        ProductDTO pDTO = new ProductDTO();
+        Product p = new Product();
+
+        when(mapper.map(pDTO, Product.class)).thenReturn(p);
+
+        when(mapper.map(pDTO, Product.class)).thenReturn(any());
     }
 }

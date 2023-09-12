@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import br.com.devxlabs.ravin.infra.ExceptionUtils;
 import br.com.devxlabs.ravin.models.dtos.ProductDTO;
 import br.com.devxlabs.ravin.models.entities.Product;
 import br.com.devxlabs.ravin.repositories.ProductRepository;
@@ -48,19 +49,31 @@ public class ProductService {
 		return p;
 	}
 
-	public void saveProduct(Product product) {
-		productRepository.save(product);
+	public Product getProductByCode(String code) throws Exception {
+		Optional<Product> opProduct = productRepository.findProductByCode(code);
+		if (!opProduct.isPresent()) {
+			throw new Exception("No product has the code received.");
+		}
+		return opProduct.get();
 	}
 
-	public Product createProduct(ProductDTO productDTO) throws Exception{
+	public void saveProduct(ProductDTO productDTO) throws Exception {
+		if (productDTO.getCostPrice() > productDTO.getSalePrice()) {
+			throw new Exception(ExceptionUtils.COST_PRICE_GREATER_THAN_SALE_PRICE);
+		}
+		Product p = mapper.map(productDTO, Product.class);
+		productRepository.save(p);
+	}
+
+	public ProductDTO createProduct(ProductDTO productDTO) throws Exception{
 		Optional<Product> opProduct = productRepository.findProductByCode(productDTO.getCode());
 		if (opProduct.isPresent()) {
-			throw new Exception("Product Code already exists.");
+			throw new Exception(ExceptionUtils.PRODUCT_CODE_ALREADY_EXISTS);
 		}
-		Product newProduct = new Product(productDTO);
-		saveProduct(newProduct);
+		// Product newProduct = new Product(productDTO);
+		saveProduct(productDTO);
 
-		return newProduct;
+		return productDTO;
 
 	}
 

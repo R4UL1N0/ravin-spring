@@ -41,7 +41,8 @@ public class ProductController {
 
 	@PostMapping
 	public ResponseEntity<ProductDTO> createProduct(@Valid @RequestBody ProductDTO productDTO) throws Exception{
-		Product created = productService.createProduct(productDTO);
+		ProductDTO created = productService.createProduct(productDTO);
+		// Product getProduct = productService.findProductByCode()
 		productDTO.setId(created.getId());
 		return new ResponseEntity<>(productDTO, HttpStatus.CREATED);
 	} 
